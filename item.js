@@ -26,5 +26,5 @@ class Item {
   }
 }
 
-let antidote = new Item(1, "apicot-berry", "Healing", "Heals the user.", 50);
-antidote.showItem();
+// let antidote = new Item(1, "apicot-berry", "Healing", "Heals the user.", 50);
+// antidote.showItem();

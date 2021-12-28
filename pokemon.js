@@ -5,6 +5,7 @@ class Pokemon {
     this.type = type;
     this.level = level;
     this.hp = hp;
+    this.currentHp = hp;
     this.attackList = attackList;
     this.image = `sprites/pokemon/main-sprites/firered-leafgreen/${this.dexNumber}.png`;
   }
@@ -17,6 +18,11 @@ class Pokemon {
     return this.hp;
   }
 
+  updateHp(damage) {
+    this.currentHp -= damage;
+    return this.currentHp;
+  }
+
   getAttackList() {
     return this.attackList;
   }
@@ -27,13 +33,13 @@ class Pokemon {
   }
 }
 
-// let charmander = new Pokemon("Charmander", 4, "fire", 5, 39, [
-//   "Scratch",
-//   "Growl",
-//   "Ember",
-//   "Smokescreen",
-// ]);
-// charmander.showPokemon(1);
+let charmander = new Pokemon("Charmander", 4, "fire", 5, 39, [
+  "Scratch",
+  "Growl",
+  "Ember",
+  "Smokescreen",
+]);
+charmander.showPokemon(1);
 
-// let bulbasaur = new Pokemon("Bulbasaur", 1, "grass", 5, 39, []);
-// bulbasaur.showPokemon(2);
+let bulbasaur = new Pokemon("Bulbasaur", 1, "grass", 5, 39, []);
+bulbasaur.showPokemon(2);

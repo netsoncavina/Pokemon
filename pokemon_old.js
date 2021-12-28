@@ -1,12 +1,39 @@
 class Pokemon {
-  constructor(name, type, hp, level) {
+  constructor(name, dexNumber, type, hp, level) {
     this.name = name;
+    this.dexNumber = dexNumber;
     this.type = type;
     this.hp = hp;
     this.level = level;
 
-    this.image = `sprites/${this.name}.png`;
-    // this.image = "sprites/pokemon/main-sprites/firered-leafgreen/37.png";
+    // this.image = `sprites/pokemon/main-sprites/firered-leafgreen/${dexNumber}.png`;
+    this.image = `sprites/pokemon/main-sprites/${dexNumber}.png`;
+
+    this.updateHealthbar = function (spriteLocation, currentHP) {
+      let healthbar = document.getElementById(`hp${spriteLocation}`);
+      let currentPercentage = (currentHP * 100) / hp;
+      healthbar.innerHTML = `${currentHP}/${this.hp}`;
+      if (currentHP <= 0) {
+        currentPercentage = 0;
+        healthbar.style = `width: 0%`;
+        healthbar.innerHTML = 0;
+      } else {
+        if (currentPercentage >= 50) {
+          healthbar.className = "progress-bar bg-success";
+        }
+        if (currentPercentage < 50 && currentPercentage >= 25) {
+          healthbar.className =
+            "progress-bar progress-bar-striped progress-bar-animated bg-warning";
+        }
+        if (currentPercentage < 25) {
+          healthbar.className =
+            "progress-bar progress-bar-striped progress-bar-animated bg-danger";
+        }
+        healthbar.style = `width: ${currentPercentage}%`;
+
+        healthbar.innerHTML = `${currentHP}/${this.hp}`;
+      }
+    };
 
     this.showPokemon = function (spriteLocation) {
       let sprite = document.getElementById(`sprite${spriteLocation}`);
@@ -82,7 +109,7 @@ class Pokemon {
         target_pokemon.type
       );
       let message = "";
-      this.damage = this.level * 2 * this.multiplier;
+      this.damage = this.level * 2 * 2 * this.multiplier;
       //   console.log(target_pokemon.hp);
 
       console.log(`${this.name} attacked ${target_pokemon.name}`);
@@ -95,6 +122,7 @@ class Pokemon {
       }
 
       target_pokemon.hp -= this.damage;
+      this.updateHealthbar(2, target_pokemon.hp);
       // console.log(`${target_pokemon.name}'s hp is now ${target_pokemon.hp}`);
       target_pokemon.isAlive();
       let array = [this.damage, message];
@@ -123,11 +151,11 @@ function attack(attacker_pokemon, attack, target_pokemon) {
   }
 }
 
-// let charmander = new Pokemon("Charmander", "fire", 100, 5);
-// charmander.attackList = ["Scratch", "Growl", "Ember", "Smokescreen"];
-// charmander.showPokemon(1);
-// charmander.showAttackList(1);
-// let squirtle = new Pokemon("Squirtle", "water", 100, 5);
-// squirtle.attackList = ["Tackle", "Tail Whip", "Water Gun", "Withdraw"];
-// squirtle.showPokemon(2);
-// squirtle.showAttackList(2);
+let charmander = new Pokemon("Charmander", 4, "fire", 100, 5);
+charmander.attackList = ["Scratch", "Growl", "Ember", "Smokescreen"];
+charmander.showPokemon(1);
+charmander.showAttackList(1);
+let squirtle = new Pokemon("Squirtle", 7, "water", 100, 5);
+squirtle.attackList = ["Tackle", "Tail Whip", "Water Gun", "Withdraw"];
+squirtle.showPokemon(2);
+squirtle.showAttackList(2);
