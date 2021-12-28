@@ -141,6 +141,13 @@ class Pokemon {
       return array;
     };
 
+    function showOutPutHeal(pokemonName, pokemonHP, healValue) {
+      let output = document.getElementById("output");
+      output.innerHTML = "";
+      output.innerHTML = `${pokemonName} healed for ${healValue} hp`;
+      output.innerHTML += `<p>${pokemonName}'s hp is now ${pokemonHP}</p>`;
+    }
+
     this.healPokemon = function (healValue) {
       if (this.hp <= hp && this.hp + healValue <= hp) {
         this.hp += healValue;
@@ -152,11 +159,20 @@ class Pokemon {
         this.hp = hp;
         this.updateHealthbar(2, hp);
       }
+      let pokemonName = this.name;
+      let pokemonHP = this.hp;
+      showOutPutHeal(pokemonName, pokemonHP, healValue);
     };
   }
 }
 
-function showOutPut(attacker_pokemon, attack, damage, target_pokemon, message) {
+function showOutPutAttack(
+  attacker_pokemon,
+  attack,
+  damage,
+  target_pokemon,
+  message
+) {
   let output = document.getElementById("output");
   output.innerHTML = "";
   // output.innerHTML += `<p>${attacker_pokemon.name}'s hp is now ${attacker_pokemon.hp}</p>`;
@@ -172,7 +188,13 @@ function attack(attacker_pokemon, attack, target_pokemon) {
   if (hit.checked) {
     let info = attacker_pokemon.attack(target_pokemon);
     damage = info[0];
-    showOutPut(attacker_pokemon, hit.value, damage, target_pokemon, info[1]);
+    showOutPutAttack(
+      attacker_pokemon,
+      hit.value,
+      damage,
+      target_pokemon,
+      info[1]
+    );
   }
 }
 
