@@ -18,17 +18,26 @@
     />
   </head>
   <body style="overflow-x: hidden;">
-    <!-- <div class="row d- mx-auto my-auto"> -->
+    
       <h1 class="text-center">Choose your pokemon!</h1>
-      <!-- <div   id="pokemons" class="d-flex flex-column  flex-sm-row"> -->
         <div class="row" id="pokemons" ></div>
-        <div class="col text-center" class="pokemons">
-          <button id="pickButton" class="btn-light" >
-            Select Pokemon
+        <!-- <div class="row"> -->
+        <br>
+          <div class="row text-center" class="pokemons">
+          <div class="col">
+          <button id="playerButton" class="btn-light " >
+            Select Player Pokemon
           </button>
         </div>
-        
-      </div>
+        <div class="col">
+          <button id="computerButton" class="btn-light " >
+            Select Computer Pokemon
+          </button>
+        </div>
+        </div>
+          
+        <br><br>
+        <h1 class="text-center" id="battleTitle"></h1>
     <div class="d-flex flex-row align-items-center">
       <div class="col-md-3 mx-auto text-center">
         <img id="sprite1" class="img-fluid" />
