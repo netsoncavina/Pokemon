@@ -103,12 +103,14 @@ function getAttack() {
 function playerAttack(computerPokemonHP, damage) {
   computerPokemonHP -= damage;
   updateHealthbar(computerPokemonHP, "computer");
+  return computerPokemonHP;
 }
 
 function computerAttack(playerPokemonHP, damage) {
   playerPokemonHP -= damage;
   console.log(playerPokemonHP, damage);
   updateHealthbar(playerPokemonHP, "player");
+  return playerPokemonHP;
 }
 
 function typeEffectiviness(attackerType, defenderType) {
@@ -149,9 +151,11 @@ function attack(firstPokemon, secondPokemon) {
     getAttackType(attack),
     getPokemonType(secondPokemon)
   );
-  console.log(secondPokemonHP, secondCurrentPercent, secondCurrentHP, damage);
+
+  //   console.log(secondPokemonHP, secondCurrentPercent, secondCurrentHP, damage);
   //   battle(firstPokemon, secondPokemon);
-  playerAttack(Math.ceil(secondCurrentHP), damage);
+  let finalHP = playerAttack(Math.ceil(secondCurrentHP), damage);
+  showOutPutAttack(firstPokemon, attack, damage, secondPokemon, finalHP, 1);
 }
 
 function secondAttack(firstPokemon, secondPokemon) {
@@ -174,7 +178,8 @@ function secondAttack(firstPokemon, secondPokemon) {
     getPokemonType(secondPokemon)
   );
   //   console.log(secondPokemonHP, secondCurrentPercent, secondCurrentHP, damage);
-  computerAttack(Math.ceil(secondCurrentHP), damage);
+  let finalHP = computerAttack(Math.ceil(secondCurrentHP), damage);
+  showOutPutAttack(firstPokemon, attack, damage, secondPokemon, finalHP, 2);
 }
 
 function randomAttack(computerPokemon) {
@@ -191,13 +196,30 @@ function battle(playerPokemon, computerPokemon) {
     attack(playerPokemon, computerPokemon);
     secondAttack(computerPokemon, playerPokemon);
   }
-  //   if (playerHealthbar != "0%" && enemyHealthbar != "0%") {
-  //     attack(playerPokemon, computerPokemon);
-  //   }
 }
 
-function printName(name1, name2) {
-  console.log(name1, name2);
+function showOutPutAttack(
+  attackerPokemon,
+  attack,
+  damage,
+  targetPokemon,
+  targetPokemonHP,
+  outputLocation
+) {
+  let output = document.getElementById(`output${outputLocation}`);
+  output.innerHTML = "";
+  if (outputLocation == 1) {
+    output.innerHTML += "<p class='h6'>Player attack</p>";
+  } else {
+    output.innerHTML += "<p class='h6'>Computer attack</p>";
+  }
+
+  // output.innerHTML += `<p>${attacker_pokemon.name}'s hp is now ${attacker_pokemon.hp}</p>`;
+  output.innerHTML += `<p>${attackerPokemon} attacked ${targetPokemon} with ${attack}</p>`;
+  // output.innerHTML += `<p>${message}</p>`;
+  // output.innerHTML += `<p>${message}</p>`;
+  output.innerHTML += `<p>${targetPokemon}'s lost ${damage} hp</p>`;
+  output.innerHTML += `<p>${targetPokemon}'s hp is now ${targetPokemonHP}</p>`;
 }
 
 let button = document.getElementById("myButton");
