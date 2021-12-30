@@ -124,14 +124,14 @@ class Pokemon {
       this.damage = this.level * 2 * 2 * this.multiplier;
       //   console.log(target_pokemon.hp);
 
-      console.log(`${this.name} attacked ${target_pokemon.name}`);
-      if (this.multiplier == 0.5) {
-        message += `Not very effective `;
-      } else if (this.multiplier == 1) {
-        message += `Effective `;
-      } else if (this.multiplier == 2) {
-        message += `Super effective! `;
-      }
+      // console.log(`${this.name} attacked ${target_pokemon.name}`);
+      // if (this.multiplier == 0.5) {
+      //   message += `Not very effective `;
+      // } else if (this.multiplier == 1) {
+      //   message += `Effective `;
+      // } else if (this.multiplier == 2) {
+      //   message += `Super effective! `;
+      // }
 
       target_pokemon.hp -= this.damage;
       this.updateHealthbar(2, target_pokemon.hp);
@@ -198,11 +198,11 @@ function attack(attacker_pokemon, attack, target_pokemon) {
   }
 }
 
-let charmander = new Pokemon("Charmander", 4, "fire", 100, 5);
+let charmander = new Pokemon("Charizard", 4, "fire", 100, 36);
 charmander.attackList = ["Scratch", "Growl", "Ember", "Smokescreen"];
 charmander.showPokemon(1);
 charmander.showAttackList(1);
-let squirtle = new Pokemon("Squirtle", 7, "water", 100, 5);
+let squirtle = new Pokemon("Blastoise", 7, "water", 100, 5);
 squirtle.attackList = ["Tackle", "Tail Whip", "Water Gun", "Withdraw"];
 squirtle.showPokemon(2);
 squirtle.showAttackList(2);

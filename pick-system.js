@@ -9,6 +9,22 @@ export function pickPokemon(position) {
   return pick;
 }
 
+function showPokemonsList(pokemonList) {
+  let id = document.getElementById("pokemons");
+  id.innerHTML = "";
+  let div = "";
+  for (let i = 0; i < pokemonList.length; i++) {
+    div += `
+              <div class="form-check col-4">
+              <img src="sprites/pokemon/main-sprites/firered-leafgreen/${pokemonList[i].id}.png"/>
+              <input class="form-check-input mx-auto my-auto" type="radio" name="pokemonRadio" id="pokemon${i}" value="${pokemonList[i].name}">
+              <label class="form-check-label" for="pokemon${i}">
+              ${pokemonList[i].name}</label>
+            </div> `;
+  }
+  id.innerHTML += div;
+}
+
 function showBattleTitle() {
   let title = document.getElementById("battleTitle");
   title.innerHTML = "Time for battle!";
@@ -51,6 +67,8 @@ function getPokemonMoves(pokemon) {
     }
   }
 }
+
+showPokemonsList(pokemons);
 
 let playerButton = document.getElementById("playerButton");
 playerButton.addEventListener("click", function () {
