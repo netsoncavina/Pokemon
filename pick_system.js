@@ -1,5 +1,6 @@
 import { pokemons } from "./pokemon_data.js";
-
+var playerPokemon;
+var computerPokemon;
 export function pickPokemon(position) {
   let pick = document.querySelector("input[name=pokemonRadio]:checked").value;
 
@@ -68,14 +69,24 @@ function getPokemonMoves(pokemon) {
   }
 }
 
+export function getPlayersPokemon() {
+  return playerPokemon;
+}
+
+export function getComputersPokemon() {
+  return computerPokemon;
+}
+
 showPokemonsList(pokemons);
 
 let playerButton = document.getElementById("playerButton");
 playerButton.addEventListener("click", function () {
-  pickPokemon(1);
+  playerPokemon = pickPokemon(1);
 });
 
 let computerButton = document.getElementById("computerButton");
 computerButton.addEventListener("click", function () {
-  pickPokemon(2);
+  computerPokemon = pickPokemon(2);
 });
+
+// export { playerPokemon, computerPokemon };
