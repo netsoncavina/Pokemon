@@ -45,7 +45,7 @@ function showMoves(pokemon, position) {
   let div = "";
   for (let i = 0; i < moveList.length; i++) {
     div += `<div class="form-check ">
-          <input class="form-check-input" type="radio" name="attackRadio1" id="attack${i}" value="${moveList[i]}">
+          <input class="form-check-input" type="radio" name="attackRadio" id="attack${i}" value="${moveList[i]}">
           <label class="form-check-label" for="attack${i}">${moveList[i]}</label>
         </div> `;
   }

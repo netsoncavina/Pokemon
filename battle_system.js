@@ -1,24 +1,50 @@
 import { pokemons } from "./pokemon_data.js";
 import { getPlayersPokemon, getComputersPokemon } from "./pick_system.js";
+import { attacks } from "./attack_data.js";
 
+let playerPokemon = getPlayersPokemon();
+let computerPokemon = getComputersPokemon();
 function getHP(pokemon) {
   for (let i = 0; i < pokemons.length; i++) {
-    if (pokemons[i].name == pokemon) {
+    if (pokemons[i].name.toUpperCase() == pokemon.toUpperCase()) {
       return pokemons[i].hp;
     }
   }
 }
 
-function showHealthbar(position, pokemon) {
-  let healthbar = document.getElementById(`healthbar${position}`);
-  let hp = getHP(pokemon);
-  console.log(hp);
-  //   healthbar.innerHTML = "";
-  //   let div = "";
+function getPokemonType(pokemon) {
+  for (let i = 0; i < pokemons.length; i++) {
+    if (pokemons[i].name.toUpperCase() == pokemon.toUpperCase()) {
+      return pokemons[i].type;
+    }
+  }
 }
 
-let playerPokemon = getPlayersPokemon();
-let computerPokemon = getComputersPokemon();
+function getAttackType(attack) {
+  for (let i = 0; i < attacks.length; i++) {
+    if (attacks[i].name.toUpperCase() == attack.toUpperCase()) {
+      return attacks[i].type;
+    }
+  }
+}
+
+function getAttackDamage(attack) {
+  for (let i = 0; i < attacks.length; i++) {
+    if (attacks[i].name.toUpperCase() == attack.toUpperCase()) {
+      return attacks[i].power;
+    }
+  }
+}
+
+function getAttackList(pokemon) {
+  let attackList = [];
+  for (let i = 0; i < pokemons.length; i++) {
+    if (pokemons[i].name == pokemon) {
+      attackList.push(pokemons[i].moves);
+    }
+  }
+  return attackList;
+}
 
 export function updatePlayersPokemon() {
   let currentPlayerPokemon = getPlayersPokemon();
@@ -68,23 +94,135 @@ function updateHealthbar(pokemonHP, position) {
   healthbar.style = `width: ${currentPercentage}%`;
 }
 
+function getAttack() {
+  let attack = document.querySelector("input[name=attackRadio]:checked").value;
+  //   console.log(attack);
+  return attack;
+}
+
+function playerAttack(computerPokemonHP, damage) {
+  computerPokemonHP -= damage;
+  updateHealthbar(computerPokemonHP, "computer");
+}
+
+function computerAttack(playerPokemonHP, damage) {
+  playerPokemonHP -= damage;
+  console.log(playerPokemonHP, damage);
+  updateHealthbar(playerPokemonHP, "player");
+}
+
+function typeEffectiviness(attackerType, defenderType) {
+  if (attackerType == "water" && defenderType == "fire") {
+    return 2;
+  }
+  if (attackerType == "fire" && defenderType == "water") {
+    return 0.5;
+  } else {
+    return 0;
+  }
+}
+
+function isSTAB(attackerType, attackType) {
+  if (attackerType == attackType) {
+    return true;
+  }
+  return false;
+}
+function getDamage(baseDamage, attackerType, attackType, defenderType) {
+  let multiplier = 0.25;
+  if (isSTAB(attackerType, attackType)) {
+    multiplier = 0.25;
+  }
+  multiplier += typeEffectiviness(attackerType, defenderType);
+  return baseDamage * multiplier;
+}
+
+function attack(firstPokemon, secondPokemon) {
+  let secondPokemonHP = getHP(secondPokemon);
+  let secondHealthbar = document.getElementById("healthbar2");
+  let secondCurrentPercent = Number(secondHealthbar.style.width.slice(0, -1));
+  let secondCurrentHP = secondPokemonHP * (secondCurrentPercent / 100);
+  let attack = getAttack();
+  let damage = getDamage(
+    getAttackDamage(attack),
+    getPokemonType(firstPokemon),
+    getAttackType(attack),
+    getPokemonType(secondPokemon)
+  );
+  console.log(secondPokemonHP, secondCurrentPercent, secondCurrentHP, damage);
+  //   battle(firstPokemon, secondPokemon);
+  playerAttack(Math.ceil(secondCurrentHP), damage);
+}
+
+function secondAttack(firstPokemon, secondPokemon) {
+  let secondPokemonHP = getHP(secondPokemon);
+  let secondHealthbar = document.getElementById("healthbar1");
+  let secondCurrentPercent = Number(secondHealthbar.style.width.slice(0, -1));
+  let secondCurrentHP = secondPokemonHP * (secondCurrentPercent / 100);
+  let attack = randomAttack(firstPokemon);
+  let damage = getDamage(
+    getAttackDamage(attack),
+    getPokemonType(firstPokemon),
+    getAttackType(attack),
+    getPokemonType(secondPokemon)
+  );
+  console.log(
+    randomAttack(firstPokemon),
+    getAttackDamage(attack),
+    getPokemonType(firstPokemon),
+    getAttackType(attack),
+    getPokemonType(secondPokemon)
+  );
+  //   console.log(secondPokemonHP, secondCurrentPercent, secondCurrentHP, damage);
+  computerAttack(Math.ceil(secondCurrentHP), damage);
+}
+
+function randomAttack(computerPokemon) {
+  let computerAttacks = getAttackList(computerPokemon);
+  let chosenAttack =
+    computerAttacks[0][Math.floor(Math.random() * computerAttacks[0].length)];
+  return chosenAttack;
+}
+
+function battle(playerPokemon, computerPokemon) {
+  let playerHealthbar = document.getElementById("healthbar1").style.width;
+  let enemyHealthbar = document.getElementById("healthbar2").style.width;
+  if (playerHealthbar != "0%" && enemyHealthbar != "0%") {
+    attack(playerPokemon, computerPokemon);
+    secondAttack(computerPokemon, playerPokemon);
+  }
+  //   if (playerHealthbar != "0%" && enemyHealthbar != "0%") {
+  //     attack(playerPokemon, computerPokemon);
+  //   }
+}
+
 function printName(name1, name2) {
   console.log(name1, name2);
 }
 
 let button = document.getElementById("myButton");
 button.addEventListener("click", function () {
-  printName(getHP(playerPokemon), getHP(computerPokemon));
+  battle(playerPokemon, computerPokemon);
 });
 
 let playerButton = document.getElementById("playerButton");
 playerButton.addEventListener("click", function () {
   playerPokemon = updatePlayersPokemon();
   updateHealthbar(getHP(playerPokemon), "player");
+  //   console.log(getPokemonType(playerPokemon));
 });
 
 let computerButton = document.getElementById("computerButton");
 computerButton.addEventListener("click", function () {
   computerPokemon = updateComputersPokemon();
   updateHealthbar(getHP(computerPokemon), "computer");
+});
+
+// battle("Charmander", "Squirtle");
+
+let attackButton = document.getElementById("attackButton");
+attackButton.addEventListener("click", function () {
+  //   playerAttack(computerPokemon, getHP(computerPokemon));
+  //   console.log(getHP(computerPokemon));
+  battle(playerPokemon, computerPokemon);
 });
