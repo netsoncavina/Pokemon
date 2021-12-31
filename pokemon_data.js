@@ -179,4 +179,15 @@ export const pokemons = [
     sprite: "sprites/pokemon/main-sprites/firered-leafgreen/18.png",
     image: "sprites/pokemon/main-sprites/battle_sprites/18.png",
   },
+
+  {
+    id: 19,
+    name: "Rattata",
+    type: "normal",
+    level: 5,
+    hp: 30,
+    moves: ["Tackle", "Quick Attack", "Focus Energy"],
+    sprite: "sprites/pokemon/main-sprites/firered-leafgreen/19.png",
+    image: "sprites/pokemon/main-sprites/battle_sprites/19.png",
+  },
 ];

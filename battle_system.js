@@ -108,7 +108,7 @@ function playerAttack(computerPokemonHP, damage) {
 
 function computerAttack(playerPokemonHP, damage) {
   playerPokemonHP -= damage;
-  console.log(playerPokemonHP, damage);
+  //   console.log(playerPokemonHP, damage);
   updateHealthbar(playerPokemonHP, "player");
   return playerPokemonHP;
 }
@@ -170,13 +170,13 @@ function secondAttack(firstPokemon, secondPokemon) {
     getAttackType(attack),
     getPokemonType(secondPokemon)
   );
-  console.log(
-    randomAttack(firstPokemon),
-    getAttackDamage(attack),
-    getPokemonType(firstPokemon),
-    getAttackType(attack),
-    getPokemonType(secondPokemon)
-  );
+  //   console.log(
+  //     randomAttack(firstPokemon),
+  //     getAttackDamage(attack),
+  //     getPokemonType(firstPokemon),
+  //     getAttackType(attack),
+  //     getPokemonType(secondPokemon)
+  //   );
   //   console.log(secondPokemonHP, secondCurrentPercent, secondCurrentHP, damage);
   let finalHP = computerAttack(Math.ceil(secondCurrentHP), damage);
   showOutPutAttack(firstPokemon, attack, damage, secondPokemon, finalHP, 2);
@@ -195,6 +195,7 @@ function battle(playerPokemon, computerPokemon) {
   if (playerHealthbar != "0%" && enemyHealthbar != "0%") {
     attack(playerPokemon, computerPokemon);
     secondAttack(computerPokemon, playerPokemon);
+    checkEnd();
   }
 }
 
@@ -222,10 +223,28 @@ function showOutPutAttack(
   output.innerHTML += `<p>${targetPokemon}'s hp is now ${targetPokemonHP}</p>`;
 }
 
-let button = document.getElementById("myButton");
-button.addEventListener("click", function () {
-  battle(playerPokemon, computerPokemon);
-});
+function checkEnd() {
+  let playerHealthbar = document.getElementById("healthbar1").style.width;
+  let enemyHealthbar = document.getElementById("healthbar2").style.width;
+  if (playerHealthbar == "0%" && enemyHealthbar == "0%") {
+    Swal.fire("Draw", "", "info");
+  } else {
+    if (playerHealthbar == "0%") {
+      Swal.fire("You Lose!", "You lost the battle", "error");
+      return true;
+    }
+    if (enemyHealthbar == "0%") {
+      Swal.fire("You win!", "You won the battle", "success");
+      return true;
+    }
+  }
+  return false;
+}
+
+// let button = document.getElementById("myButton");
+// button.addEventListener("click", function () {
+//   battle(playerPokemon, computerPokemon);
+// });
 
 let playerButton = document.getElementById("playerButton");
 playerButton.addEventListener("click", function () {
