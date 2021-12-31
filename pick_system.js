@@ -89,4 +89,22 @@ computerButton.addEventListener("click", function () {
   computerPokemon = pickPokemon(2);
 });
 
+function hidePokemons() {
+  let pokemons = document.getElementById("pokemons");
+  let button = document.getElementById("myButton");
+  if (pokemons.style.display === "none") {
+    pokemons.style.display = "flex";
+    button.innerHTML = "Hide gen1 pokemons";
+  } else {
+    pokemons.style.display = "none";
+    button.innerHTML = "Show gen1 pokemons";
+  }
+  // console.log(pokemons.style.display.valueOf());
+}
+
+let button = document.getElementById("myButton");
+button.addEventListener("click", function () {
+  hidePokemons();
+});
+
 // export { playerPokemon, computerPokemon };
