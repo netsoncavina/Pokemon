@@ -3,9 +3,11 @@ var playerPokemon;
 var computerPokemon;
 export function pickPokemon(position) {
   let pick = document.querySelector("input[name=pokemonRadio]:checked").value;
-
+  let health = document.getElementById(`healthbar${position}`);
+  health.className = "progress-bar";
   showPokemon(pick, position);
   showMoves(pick, position);
+  // updateHealthbar(pick, position);
   //   showBattleTitle();
   return pick;
 }
